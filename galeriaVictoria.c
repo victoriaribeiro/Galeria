@@ -109,9 +109,24 @@ void renderScene(void) {
 		glVertex3f( 100.0f, 0.0f,  100.0f);
 		glVertex3f( 100.0f, 0.0f, -100.0f);
 	glEnd();
-DesenhaParede(0.3,10,20);
 
-DesenhaParede(20,10,0.3);
+	glPushMatrix();
+	glTranslatef(20,0,20);
+	DesenhaParede(0.5,10,20);
+	glPopMatrix();
+
+	DesenhaParede(20,10,0.3);
+
+	glPushMatrix();
+	glTranslatef(-20,0,20);
+	DesenhaParede(0.5,10,20);
+	glPopMatrix();
+
+	glPushMatrix();
+	glTranslatef(0,0,40);
+	DesenhaParede(20,10,0.3);
+	glPopMatrix();
+
 
 
         // Draw 36 SnowMen
@@ -159,7 +174,7 @@ void processNormalKeys(unsigned char key, int x, int y) {
 
 void processSpecialKeys(int key, int xx, int yy) {
 
-	float fraction = 0.5f;
+	float fraction = 1.0f;
 
 	switch (key) {
 		case GLUT_KEY_LEFT :
@@ -181,7 +196,10 @@ void processSpecialKeys(int key, int xx, int yy) {
 			z -= lz * fraction;
 			break;
 		case GLUT_KEY_PAGE_UP :
-			y += 0.1f*fraction;
+			y += 0.5f*fraction;
+			break;
+		case GLUT_KEY_PAGE_DOWN :
+			x += x*0.1*fraction;
 			break;
 	}
 }
