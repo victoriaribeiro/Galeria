@@ -4,7 +4,6 @@
 
 //gcc galeriaVictoria.c -lGL -lGLU -lglut -lm 
 
-
 // angle of rotation for the camera direction
 float angle=0.0;
 // actual vector representing the camera's direction
