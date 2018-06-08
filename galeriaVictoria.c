@@ -41,7 +41,9 @@ float x=0.0f,z=5.0f, y = 1.0f;
 
 void DesenhaParede(GLfloat x, GLfloat y, GLfloat z){
 
-	glColor3f(100.0f, 0.0f, 1.0f);
+	// glColor3f(100.0f, 0.0f, 1.0f);
+		glColor3f(0.92f, 0.71f, 0.45f);
+
 	glBegin(GL_QUADS);			// Face posterior
 		glNormal3f(0.0, 0.0, 1.0);	// Normal da face
 		glVertex3f(x, y, z);
@@ -104,27 +106,27 @@ void renderScene(void) {
         // Draw ground
 	glColor3f(0.9f, 0.9f, 0.9f);
 	glBegin(GL_QUADS);
-		glVertex3f(-100.0f, 0.0f, -100.0f);
-		glVertex3f(-100.0f, 0.0f,  100.0f);
-		glVertex3f( 100.0f, 0.0f,  100.0f);
-		glVertex3f( 100.0f, 0.0f, -100.0f);
+		glVertex3f(-400.0f, 0.0f, -400.0f);
+		glVertex3f(-400.0f, 0.0f,  400.0f);
+		glVertex3f( 400.0f, 0.0f,  400.0f);
+		glVertex3f( 400.0f, 0.0f, -400.0f);
 	glEnd();
 
 	glPushMatrix();
-	glTranslatef(20,0,20);
-	DesenhaParede(0.5,10,20);
+	glTranslatef(50,0,50);
+	DesenhaParede(0.5,10,50);
 	glPopMatrix();
 
-	DesenhaParede(20,10,0.3);
+	DesenhaParede(50,10,0.3);
 
 	glPushMatrix();
-	glTranslatef(-20,0,20);
-	DesenhaParede(0.5,10,20);
+	glTranslatef(-50,0,50);
+	DesenhaParede(0.5,10,50);
 	glPopMatrix();
 
 	glPushMatrix();
-	glTranslatef(0,0,40);
-	DesenhaParede(20,10,0.3);
+	glTranslatef(0,0,100);
+	DesenhaParede(50,10,0.3);
 	glPopMatrix();
 
 
@@ -159,7 +161,7 @@ void changeSize(int w, int h) {
 	glViewport(0, 0, w, h);
 
 	// Set the correct perspective.
-	gluPerspective(45.0f, ratio, 0.1f, 100.0f);
+	gluPerspective(45.0f, ratio, 0.1f, 200.0f);
 
 	// Get Back to the Modelview
 	glMatrixMode(GL_MODELVIEW);
