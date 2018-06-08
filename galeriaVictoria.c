@@ -2,7 +2,7 @@
 #include "math.h"
 #include <stdio.h>
 
-//gcc galeriaVictoria.c -lGL -lGLU -lglut -lm 
+//gcc galeriaVictoria.c -lGL -lGLU -lglut -lm
 
 // angle of rotation for the camera direction
 float angle=0.0;
@@ -106,7 +106,7 @@ void renderScene(void) {
 	// 		x+lx, y+ly,  z+lz,
 	// 		0.0f, 1.0f,  0.0f);
 	// }
-	
+
 			gluLookAt(	x, y, z,
 			x+lx, y+ly,  z+lz,
 			0.0f, 1.0f,  0.0f);
@@ -200,17 +200,29 @@ void changeSize(int w, int h) {
 }
 
 
-void processNormalKeys(unsigned char key, int x, int y) {
+void processNormalKeys(unsigned char key, int xx, int yy) {
 
-	if (key == 27)
-		exit(0);
+	float fraction = 1.0f;
+
+	switch (key) {
+			case 27:
+				exit(0);
+				break;
+            // case 'd':
+			// 	x -= x*0.1*fraction;
+			// 	break;
+            // case 'a':
+			// 	x += x*0.1*fraction;
+			// 	break;
+    }
+
 }
 
 void processSpecialKeys(int key, int xx, int yy) {
 
 	float fraction = 1.0f;
 	float tempX = x;
-	float tempZ = z; 
+	float tempZ = z;
 
 	switch (key) {
 		case GLUT_KEY_LEFT :
@@ -232,14 +244,14 @@ void processSpecialKeys(int key, int xx, int yy) {
 			else if(tempZ<1)
 				tempZ = 1;
 			else
-				z = tempZ;				
+				z = tempZ;
 
 			if(tempX>48)
 				tempX = 48;
 			else if(tempX<-48)
 				tempX = -48;
 			else
-				x = tempX;			
+				x = tempX;
 			break;
 		case GLUT_KEY_DOWN :
 			tempZ -= lz * fraction;
@@ -250,15 +262,14 @@ void processSpecialKeys(int key, int xx, int yy) {
 			else if(tempZ<1)
 				tempZ = 1;
 			else
-				z = tempZ;				
+				z = tempZ;
 
 			if(tempX>48)
 				tempX = 48;
 			else if(tempX<-48)
 				tempX = -48;
 			else
-				x = tempX;		
-
+				x = tempX;
 			break;
 		case GLUT_KEY_PAGE_UP :
 			y += 0.5f*fraction;
@@ -269,12 +280,54 @@ void processSpecialKeys(int key, int xx, int yy) {
 	}
 }
 
+void Inicializa (void)
+{
+	GLfloat luzAmbiente[4]={0.3,0.3,0.3,1.0};
+	GLfloat luzDifusa[4]={0.6,0.6,0.6,1.0};		 // "cor"
+	GLfloat luzEspecular[4]={1.0, 1.0, 1.0, 1.0};// "brilho"
+	GLfloat posicaoLuz[4]={0.0, 500.0, 50.0, 1.0};
+
+	// Capacidade de brilho do material
+	GLfloat especularidade[4]={0.5,0.5,0.5,1.0};
+	GLint especMaterial = 100;
+
+ 	// Especifica que a cor de fundo da janela será preta
+    glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
+
+	// Habilita o modelo de colorização de Gouraud
+	glShadeModel(GL_SMOOTH);
+
+	// Define a refletância do material
+	glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT_AND_DIFFUSE, luzDifusa);
+	// Define a concentração do brilho
+	glMateriali(GL_FRONT_AND_BACK,GL_SHININESS,especMaterial);
+
+	// Ativa o uso da luz ambiente
+	glLightModelfv(GL_LIGHT_MODEL_AMBIENT, luzAmbiente);
+
+	// Define os parâmetros da luz de número 0
+	glLightfv(GL_LIGHT0, GL_AMBIENT, luzAmbiente);
+	glLightfv(GL_LIGHT0, GL_DIFFUSE, luzDifusa );
+	glLightfv(GL_LIGHT0, GL_SPECULAR, luzEspecular );
+	glLightfv(GL_LIGHT0, GL_POSITION, posicaoLuz );
+	// Habilita a definição da cor do material a partir da cor corrente
+	glEnable(GL_COLOR_MATERIAL);
+	//Habilita o uso de iluminação
+	glEnable(GL_LIGHTING);
+	// Habilita a luz de número 0
+	glEnable(GL_LIGHT0);
+	// Habilita o depth-buffering
+	glEnable(GL_DEPTH_TEST);
+
+
+}
+
 int main(int argc, char **argv) {
 
 	// init GLUT and create window
 
 	glutInit(&argc, argv);
-	glutInitDisplayMode(GLUT_DEPTH | GLUT_DOUBLE | GLUT_RGBA);
+	glutInitDisplayMode(GLUT_DEPTH | GLUT_DOUBLE | GLUT_RGB);
 	glutInitWindowPosition(100,100);
 	glutInitWindowSize(1000,1000);
 	glutCreateWindow("Galeria");
@@ -288,6 +341,7 @@ int main(int argc, char **argv) {
 
 	// OpenGL init
 	glEnable(GL_DEPTH_TEST);
+	Inicializa();
 
 	// enter GLUT event processing cycle
 	glutMainLoop();
