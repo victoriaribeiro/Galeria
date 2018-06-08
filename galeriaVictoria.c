@@ -99,9 +99,18 @@ void renderScene(void) {
 	// Reset transformations
 	glLoadIdentity();
 	// Set the camera
-	gluLookAt(	x, y, z,
+	// if(z<98){
+
+	// }else{
+	// 	gluLookAt(	x, y, z,
+	// 		x+lx, y+ly,  z+lz,
+	// 		0.0f, 1.0f,  0.0f);
+	// }
+	
+			gluLookAt(	x, y, z,
 			x+lx, y+ly,  z+lz,
 			0.0f, 1.0f,  0.0f);
+
 
         // Draw ground
 	glColor3f(0.9f, 0.9f, 0.9f);
@@ -127,6 +136,29 @@ void renderScene(void) {
 	glPushMatrix();
 	glTranslatef(0,0,100);
 	DesenhaParede(50,10,0.3);
+	glPopMatrix();
+
+
+	glPushMatrix();
+	glTranslatef(25,0,50);
+	DesenhaParede(0.5,10,20);
+	glPopMatrix();
+
+	glPushMatrix();
+	glTranslatef(0,0,50);
+	DesenhaParede(0.5,10,20);
+	glPopMatrix();
+
+	glPushMatrix();
+	glColor3f(0.89f, 0.32f, 0.32f);
+	glTranslatef(10,1,35);
+	glutSolidTeapot(0.5);
+	glPopMatrix();
+
+	glPushMatrix();
+	glColor3f(99.0f, 57.0f, 9.0f);
+	glTranslatef(10,0,35);
+	DesenhaParede(0.5,0.60,0.5);
 	glPopMatrix();
 
 
@@ -177,6 +209,8 @@ void processNormalKeys(unsigned char key, int x, int y) {
 void processSpecialKeys(int key, int xx, int yy) {
 
 	float fraction = 1.0f;
+	float tempX = x;
+	float tempZ = z; 
 
 	switch (key) {
 		case GLUT_KEY_LEFT :
@@ -190,12 +224,41 @@ void processSpecialKeys(int key, int xx, int yy) {
 			lz = -cos(angle);
 			break;
 		case GLUT_KEY_UP :
-			x += lx * fraction;
-			z += lz * fraction;
+			tempZ += lz * fraction;
+			tempX += lx * fraction;
+
+			if(tempZ>98)
+				tempZ = 98;
+			else if(tempZ<1)
+				tempZ = 1;
+			else
+				z = tempZ;				
+
+			if(tempX>48)
+				tempX = 48;
+			else if(tempX<-48)
+				tempX = -48;
+			else
+				x = tempX;			
 			break;
 		case GLUT_KEY_DOWN :
-			x -= lx * fraction;
-			z -= lz * fraction;
+			tempZ -= lz * fraction;
+			tempX -= lx * fraction;
+
+			if(tempZ>98)
+				tempZ = 98;
+			else if(tempZ<1)
+				tempZ = 1;
+			else
+				z = tempZ;				
+
+			if(tempX>48)
+				tempX = 48;
+			else if(tempX<-48)
+				tempX = -48;
+			else
+				x = tempX;		
+
 			break;
 		case GLUT_KEY_PAGE_UP :
 			y += 0.5f*fraction;
